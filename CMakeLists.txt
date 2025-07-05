@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(figcone_xml VERSION 1.2.0 DESCRIPTION "rapidxml parser adapter for figcone library")
+project(figcone_xml VERSION 1.3.0 DESCRIPTION "rapidxml parser adapter for figcone library")
 include(external/seal_lake)
 
-SealLake_IsInstallEnabled(INSTALL_FIGCONE_TREE)
-SealLake_Import(
-        figcone_tree 2.1.0
+SealLake_v040_IsInstallEnabled(INSTALL_FIGCONE_TREE)
+SealLake_v040_Import(
+        figcone_tree 2.2.0
         GIT_REPOSITORY https://github.com/kamchatka-volcano/figcone_tree.git
-        GIT_TAG        v2.1.0
+        GIT_TAG  v2.2.0
 )
-SealLake_Bundle(
+SealLake_v040_Bundle(
         NAME figcone_rapidxml
         SKIP_LOAD
         GIT_REPOSITORY https://github.com/dwd/rapidxml.git
@@ -18,7 +18,7 @@ SealLake_Bundle(
             "namespace rapidxml" "namespace figcone::xml::rapidxml"
 )
 
-SealLake_ObjectLibrary(
+SealLake_v040_ObjectLibrary(
         NAMESPACE figcone
         SOURCES
             src/paramparser.cpp
@@ -30,7 +30,7 @@ SealLake_ObjectLibrary(
         INTERFACE_LIBRARIES
             figcone::figcone_tree
         DEPENDENCIES
-            figcone_tree 2.1.0
+            figcone_tree 2.2.0
 )
 
-SealLake_OptionalSubProjects(tests)
+SealLake_v040_OptionalSubProjects(tests)
