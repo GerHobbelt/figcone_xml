@@ -76,7 +76,7 @@ void parseXml(const rapidxml::xml_node<char>* xml, figcone::TreeNode& node)
             throw ConfigError{"Root node can't be a node list"};
 
         for (auto child = xml->first_node(); child != nullptr; child = child->next_sibling()) {
-            parseXml(child, node.asList().emplaceBackAny(name(child)));
+            parseXml(child.get(), node.asList().emplaceBackAny(name(child)));
         }
     }
     else {
@@ -89,7 +89,7 @@ void parseXml(const rapidxml::xml_node<char>* xml, figcone::TreeNode& node)
         }
         for (auto child = xml->first_node(); child != nullptr; child = child->next_sibling()) {
             auto& newNode = node.asItem().addAny(name(child));
-            parseXml(child, newNode);
+            parseXml(child.get(), newNode);
         }
     }
 }
@@ -118,7 +118,7 @@ Tree Parser::parse(std::istream& stream)
         throw figcone::ConfigError{e.what(), detail::getErrorPosition(input, e)};
     }
     auto treeRoot = figcone::makeTreeRoot();
-    detail::parseXml(xml.first_node(), *treeRoot);
+    detail::parseXml(xml.first_node().get(), *treeRoot);
     auto tree = Tree{std::move(treeRoot)};
     return tree;
 }
